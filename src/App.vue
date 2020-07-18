@@ -27,7 +27,14 @@ export default {
   // components: {
   //   HelloWorld
   // }
-
+  created() {
+    this.$bus.$on("haha", data => {
+      console.info(data);
+    });
+  },
+  beforeDestroy(){
+    this.$bus.$off('haha')
+  },
   methods: {
     valueChange() {
       console.info(1);

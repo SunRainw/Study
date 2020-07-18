@@ -1,5 +1,6 @@
 <template>
   <div v-if="isShow">
+    <!-- <a-button @click="busChange"></a-button> -->
     <span @click="close">X</span>
   </div>
 </template>

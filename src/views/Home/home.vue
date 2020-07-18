@@ -91,6 +91,23 @@
     <!-- <order :visible="show" @update:visible="show=$event"></order> -->
     <order :visible.sync="show"></order>
     <base-layout></base-layout>
+    <div class="rectangle" @click.capture="press(1)" @scroll.passive="onScroll">
+      <!-- .stop 阻止冒泡 -->
+      <a-button @click.stop="press(2)">阻止冒泡</a-button>
+      <!-- .prevent 阻止默认事件， 修饰符可串联使用 -->
+      <a @click.prevent.stop="press(3)" href="http://www.baidu.com">跳转</a>
+      <!-- .capture 内部元素触发的事件先在此处理，然后才交由内部元素进行处理 -->
+      <!-- 父元素添加.capture的顺序是1 4, 未添加时4 1 -->
+      <a-button @click="press(4)">捕获</a-button>
+      <!-- .self只有当前触发才能执行，所以点击self按钮无法触发他的点击事件 -->
+      <div @click.self.prevent="press('self-box')" class="circle">
+        <a-button @click="press('haha')">self</a-button>
+      </div>
+      <!-- .once 只执行一次后，再操作就不会执行了 -->
+      <a-button @click.once="press('once')">once</a-button>
+      <!-- 直接使用v-bind绑定，则默认会绑定到dom节点的attribute，使用.prop则不会，会绑定到p.index中 -->
+      <p v-for="n in 10" :key="n" :index.prop="n">{{n}}</p>
+    </div>
   </div>
 </template>
 
@@ -159,6 +176,12 @@ export default {
     },
     doSomething() {
       alert("动态参数绑定事件");
+    },
+    press(item) {
+      console.info(item);
+    },
+    onScroll(){
+      console.info('我动了')
     }
   },
   computed: {
@@ -210,5 +233,18 @@ export default {
       width: 60px;
     }
   }
+}
+.rectangle {
+  width: 200px;
+  height: 200px;
+  background: pink;
+  margin: 0 auto;
+  overflow: auto;
+}
+.circle{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: skyblue;
 }
 </style>

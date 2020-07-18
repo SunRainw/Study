@@ -18,6 +18,7 @@
       </transition-group>
     </div>
     <a-input v-focus></a-input>
+    <a-button @click="busChange">haha</a-button>
   </div>
 </template>
 
@@ -46,6 +47,9 @@ export default {
     shuffles() {
       this.numList = shuffle(this.numList);
       console.info(this.numList);
+    },
+    busChange() {
+      this.$bus.$emit("haha", 123);
     }
   },
   directives: {
